@@ -1,179 +1,161 @@
 # California House Price Prediction
 
-A machine learning project that predicts California area-level median house values using regression models, including Linear Regression and Random Forest Regressor.
-
 ## Live Demo
 
-Try the deployed application: [California House Price Prediction — Live Demo](https://california-house-price-prediction-byabir.streamlit.app/)
-
-## GitHub Repository
-
-Source code: [California House Price Prediction on GitHub](https://github.com/ahsanhabibabir04/house-price-prediction)
+[Launch the California House Price Prediction App](https://house-price-prediction-byabir.streamlit.app/)
 
 ## Overview
 
-This project uses the California Housing dataset to train and compare two regression models: Linear Regression and Random Forest Regressor.
+A machine learning project that predicts California district-level median house values using the California Housing dataset. The project implements and compares Linear Regression and Random Forest regression models, with an interactive Streamlit web application powered by the trained Random Forest model.
 
-The project includes data exploration, validation, model training, performance evaluation, and an interactive Streamlit web application that predicts area-level median house values based on housing-related features.
+## Project Objectives
 
-The goal is to demonstrate a practical machine learning workflow, from dataset preparation to model deployment.
-
-## Features
-
-- Housing dataset exploration and validation
-- Data preprocessing and feature analysis
-- Training and comparison of regression models
-- Linear Regression and Random Forest Regressor
-- Model evaluation using MAE, RMSE, and R² score
-- Interactive house value prediction through Streamlit
-- Automated unit tests
-- Model serialization using Joblib
+- Explore and preprocess the California Housing dataset.
+- Train and evaluate multiple regression models.
+- Compare model performance using standard regression metrics.
+- Select a suitable model for house value prediction.
+- Deploy an interactive application using Streamlit.
 
 ## Dataset
 
-This project uses the California Housing dataset provided by scikit-learn.
+This project uses the California Housing dataset available through scikit-learn.
 
 - **Number of samples:** 20,640
-- **Number of input features:** 8
+- **Input features:** 8
 - **Target variable:** Median house value
-- **Target units:** $100,000
+- **Target unit:** Hundreds of thousands of US dollars
+- **Source:** scikit-learn California Housing dataset
 
-The dataset contains aggregated information about California housing districts, including median income, housing age, average rooms, population, and geographic coordinates.
+The target value is capped at approximately $500,000 in the dataset.
 
-Target values are capped near $500,000. Therefore, predictions should be interpreted as estimates of area-level median house values rather than exact prices for individual properties.
+## Machine Learning Models
 
-## Model Performance
+Two regression algorithms were trained and evaluated:
 
-The models were evaluated on a held-out test set.
+1. **Linear Regression** — a baseline model for estimating the relationship between input features and median house values.
+2. **Random Forest Regressor** — an ensemble learning model that combines multiple decision trees to capture more complex relationships in the data.
 
-| Model | MAE | RMSE | R² Score |
-|---|---:|---:|---:|
-| Linear Regression | 0.5332 | 0.7456 | 0.5758 |
-| Random Forest Regressor | 0.3277 | 0.5060 | 0.8046 |
+The Random Forest model is used in the Streamlit application because it achieved better evaluation results in this project.
 
-### Model Comparison
+## Model Evaluation
 
-Random Forest Regressor performed better than Linear Regression across all three reported metrics on this test set.
+The models were compared using Mean Absolute Error (MAE), Root Mean Squared Error (RMSE), and the coefficient of determination (R²).
 
-- **MAE (Mean Absolute Error):** Measures the average absolute difference between predicted and actual values. Lower is better.
-- **RMSE (Root Mean Squared Error):** Measures prediction error while penalizing larger errors more heavily. Lower is better.
-- **R² Score:** Measures how well the model explains variation in the target variable. Higher is generally better.
+| Metric | Linear Regression | Random Forest |
+|---|---:|---:|
+| MAE | 0.5332 | 0.3277 |
+| RMSE | 0.7456 | 0.5060 |
+| R² Score | 0.5758 | 0.8046 |
 
-The target is measured in units of $100,000. For example, an MAE of 0.3277 corresponds to an average absolute error of approximately $32,770 in the dataset's target units.
+### Results
 
-Based on these results, the Random Forest Regressor is used in the Streamlit application.
+The Random Forest Regressor outperformed Linear Regression across all three reported metrics.
 
-**Note:** These results represent one held-out test set and do not guarantee the same performance on other datasets or future housing markets.
+- **Lower MAE:** The Random Forest model produced smaller average absolute prediction errors.
+- **Lower RMSE:** Its predictions had a lower root mean squared error.
+- **Higher R²:** The model explained approximately 80.46% of the variance in the target values on the evaluation data.
+
+These results indicate that Random Forest was the stronger model for this project.
+
+## Features
+
+- Interactive house value prediction interface.
+- California Housing dataset integration.
+- Linear Regression and Random Forest model comparison.
+- Evaluation using MAE, RMSE, and R².
+- Trained model persistence with Joblib.
+- Automated unit tests using Python's `unittest` framework.
+- Web deployment using Streamlit.
 
 ## Technologies Used
 
-- **Python** — Programming language
-- **Pandas** — Data manipulation and analysis
-- **NumPy** — Numerical computing
-- **Scikit-learn** — Data processing and machine learning
-- **Streamlit** — Interactive web application
-- **Joblib** — Model serialization
-- **unittest** — Automated testing
-- **Git and GitHub** — Version control and source code hosting
+- Python
+- pandas
+- NumPy
+- scikit-learn
+- Streamlit
+- Joblib
+- unittest
 
-## Requirements
+## Project Structure
 
-- Python 3.10 or newer, compatible with the project's dependencies
-- pip
-- Git (optional, for cloning the repository)
-- An internet connection for installing dependencies
+```text
+California-House-Price-Prediction/
+├── app.py
+├── requirements.txt
+├── README.md
+├── models/
+├── data/
+└── tests/
+```
 
-## Installation
+*Note: Update this structure if your actual repository contains a different set of files or folders.*
+
+## Installation and Setup
 
 ### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/ahsanhabibabir04/house-price-prediction.git
-```
-
-### 2. Navigate to the Project Directory
-
-```bash
 cd house-price-prediction
 ```
 
-### 3. Create a Virtual Environment
+### 2. Create a Virtual Environment
 
 ```bash
 python -m venv .venv
 ```
 
-### 4. Activate the Virtual Environment
+Activate the environment.
 
-On Windows PowerShell:
+**Windows PowerShell:**
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
-### 5. Install Dependencies
+**macOS or Linux:**
+
+```bash
+source .venv/bin/activate
+```
+
+### 3. Install Dependencies
 
 ```bash
 python -m pip install -r requirements.txt
 ```
 
-## Run the Streamlit Application
-
-Start the application with:
+### 4. Run the Application
 
 ```bash
 python -m streamlit run app.py
 ```
 
-Open the local URL displayed in the terminal to access the application.
+The application will open in your browser. If it does not open automatically, use the local URL displayed in the terminal.
 
-Enter the required housing information to generate a predicted median house value.
+## Running Tests
 
-## Run Automated Tests
-
-Run the project's test suite with:
+Run the project's automated tests with:
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-The test suite checks the implemented project functionality and helps detect regressions.
-
 ## Limitations
 
-- The dataset represents California housing districts, not individual property listings.
-- Target values are capped near $500,000.
-- Predictions are educational estimates and may not reflect current market prices.
-- The model may not generalize well to locations outside California.
-- Housing market conditions can change over time, affecting prediction accuracy.
-- Model performance depends on the dataset, selected features, and training configuration.
+- Predictions are estimates based on historical dataset patterns and are not professional property valuations.
+- The dataset's target values are capped, which limits the model's ability to distinguish properties above that threshold.
+- Model performance depends on the dataset, preprocessing, train-test split, and evaluation methodology.
+- Predictions should not be used as the sole basis for real estate investment or purchasing decisions.
 
 ## Future Improvements
 
-Potential improvements include:
-
-- Hyperparameter tuning for the Random Forest model
-- Cross-validation for more robust model evaluation
-- Feature importance analysis and model explainability
-- Improved visualizations of housing data and prediction errors
-- Testing additional regression algorithms
-- Retraining with more recent housing data
-- Deploying additional model evaluation metrics in the web application
-
-## Learning Outcomes
-
-Through this project, I practiced:
-
-- Exploring and validating a real-world dataset
-- Preparing data for regression tasks
-- Training and comparing machine learning models
-- Evaluating regression performance using MAE, RMSE, and R²
-- Understanding prediction errors and model limitations
-- Saving and loading trained models with Joblib
-- Building an interactive application with Streamlit
-- Writing automated tests with Python's `unittest`
-- Organizing and documenting a machine learning project
-- Managing source code using Git and GitHub
+- Add visualizations for feature distributions and model performance.
+- Perform hyperparameter tuning for the Random Forest model.
+- Add cross-validation for more robust model evaluation.
+- Improve the user interface and input validation.
+- Explore additional regression algorithms and compare their performance.
 
 ## Author
 
@@ -181,12 +163,8 @@ Through this project, I practiced:
 
 Computer Science Student | Aspiring AI/ML Engineer
 
-## Repository Links
+- GitHub: [ahsanhabibabir04](https://github.com/ahsanhabibabir04)
 
-- **Live Demo:** [California House Price Prediction](https://california-house-price-prediction-byabir.streamlit.app/)
-- **GitHub Repository:** [house-price-prediction](https://github.com/ahsanhabibabir04/house-price-prediction)
-- **GitHub Profile:** [ahsanhabibabir04](https://github.com/ahsanhabibabir04)
+## License
 
----
-
-If you find this project useful, consider giving the repository a star.
+This project is intended for educational and portfolio purposes. Add a `LICENSE` file if you want to distribute the project under a specific open-source license.
