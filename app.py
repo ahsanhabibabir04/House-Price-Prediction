@@ -2,6 +2,8 @@
 import pandas as pd
 import joblib
 from pathlib import Path
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.datasets import fetch_california_housing
 
 st.set_page_config(
     page_title="California House Price Predictor",
@@ -10,10 +12,36 @@ st.set_page_config(
 )
 
 MODEL_PATH = Path("models/random_forest.pkl")
+DATA_PATH = Path("data/california_housing.csv")
 
 @st.cache_resource
 def load_model():
-    return joblib.load(MODEL_PATH)
+    if MODEL_PATH.exists():
+        return joblib.load(MODEL_PATH)
+
+    if DATA_PATH.exists():
+        df = pd.read_csv(DATA_PATH)
+        X = df.drop(columns=["MedHouseVal"])
+        y = df["MedHouseVal"]
+    else:
+        housing = fetch_california_housing(data_home="data")
+        X = pd.DataFrame(
+            housing.data,
+            columns=housing.feature_names
+        )
+        y = pd.Series(housing.target, name="MedHouseVal")
+
+    model = RandomForestRegressor(
+        n_estimators=100,
+        random_state=42,
+        n_jobs=-1
+    )
+    model.fit(X, y)
+
+    MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
+    joblib.dump(model, MODEL_PATH)
+
+    return model
 
 st.title("🏡 California House Price Predictor")
 st.write(
@@ -26,11 +54,8 @@ st.info(
     "not the market price of an individual property."
 )
 
-if not MODEL_PATH.exists():
-    st.error("Model file not found. Please run `python train.py` first.")
-    st.stop()
-
-model = load_model()
+with st.spinner("Loading or training the prediction model..."):
+    model = load_model()
 
 st.subheader("Enter Housing Information")
 
